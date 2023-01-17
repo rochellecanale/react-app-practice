@@ -1,17 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useQuery } from 'react-query'
 import { getCurrentWeather } from '../../services/weatherAPI'
 
 function WeatherApp() {
 
-    const { 
+	const [state, setstate] = useState('Bulacan');
+
+	const { 
         isLoading, 
         isError, 
         error, 
         data: weather
-    } = useQuery('weatherData', getCurrentWeather)
-
-    console.log('weather', weather)
+    } = useQuery({
+		queryKey: ['weather', {location: state}],
+		queryFn: getCurrentWeather
+	})
 
     let content
     if(isLoading) {
@@ -31,11 +34,27 @@ function WeatherApp() {
             </div>
     }
 
+	const handleClick = () => {
+
+	}
+
+	const handleChange = (event) => {
+		setstate(event.target.value)
+	}
+
     return (
         <>
             <h1 className="text-center text-3xl antialiased">Weather App</h1>
-            <input type="text" placeholder="Enter a city here..." class="form-input px-4 py-3 mt-5 mb-5" />
-            <button className="ml-5 p-3 bg-orange-700 hover:bg-orange-300">Check weather</button>
+            <input 
+				type="text" 
+				placeholder="Enter a city here..." 
+				className="form-input px-4 py-3 mt-5 mb-5" 
+				onChange={handleChange} 
+				value={state}
+			/>
+            <button 
+				className="ml-5 p-3 bg-orange-700 hover:bg-orange-300" 
+				onClick={handleClick}>Check weather</button>
             { content }
         </>
     )
