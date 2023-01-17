@@ -1,9 +1,13 @@
 import React from 'react'
 import { useEffect } from 'react'
 import { Link, Outlet, useLocation } from 'react-router-dom'
+import { QueryClient, QueryClientProvider  } from 'react-query'
+import { ReactQueryDevtools } from 'react-query/devtools'
 
 function Projects() {
 
+
+    const queryClient = new QueryClient()
     const location = useLocation()
     const menuLabel = {
         selected: 'inline-block border border-blue-500 rounded py-1 px-3 bg-blue-500 text-white',
@@ -43,20 +47,22 @@ function Projects() {
 
     return (
         <div>
-            <ul className="flex mt-5 ml-5">
-                { menuList.map(menu => (
-                    <li className="mr-6" key={ menu.link }>
-                        <Link className={ menu.class } to={ menu.link }>{ menu.label }</Link>
-                    </li>
-                ))}
-            </ul>
-                
-            <div className="container">
-                <div className="columns-12 p-10">
-                    <Outlet />
+            <QueryClientProvider client={queryClient}>
+                <ul className="flex mt-5 ml-5">
+                    { menuList.map(menu => (
+                        <li className="mr-6" key={ menu.link }>
+                            <Link className={ menu.class } to={ menu.link }>{ menu.label }</Link>
+                        </li>
+                    ))}
+                </ul>
+                    
+                <div className="container mx-auto">
+                    <div className="columns-auto p-10 px-4">
+                        <Outlet />
+                    </div>
                 </div>
-            </div>
-         
+                <ReactQueryDevtools />
+            </QueryClientProvider>
         </div>
     )
 }
