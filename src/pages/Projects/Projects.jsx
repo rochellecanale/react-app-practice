@@ -1,11 +1,9 @@
-import React from 'react'
-import { useEffect } from 'react'
+import React, { useEffect }  from 'react'
 import { Link, Outlet, useLocation } from 'react-router-dom'
-import { QueryClient, QueryClientProvider  } from 'react-query'
-import { ReactQueryDevtools } from 'react-query/devtools'
+import { QueryClient, QueryClientProvider  } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 function Projects() {
-
 
     const queryClient = new QueryClient()
     const location = useLocation()
@@ -46,24 +44,22 @@ function Projects() {
     }, [])
 
     return (
-        <div>
-            <QueryClientProvider client={queryClient}>
-                <ul className="flex mt-5 ml-5">
-                    { menuList.map(menu => (
-                        <li className="mr-6" key={ menu.link }>
-                            <Link className={ menu.class } to={ menu.link }>{ menu.label }</Link>
-                        </li>
-                    ))}
-                </ul>
-                    
-                <div className="container mx-auto">
-                    <div className="columns-auto p-10 px-4">
-                        <Outlet />
-                    </div>
+        <QueryClientProvider client={queryClient}>
+            <ul className="flex mt-5 ml-5">
+                { menuList.map(menu => (
+                    <li className="mr-6" key={ menu.link }>
+                        <Link className={ menu.class } to={ menu.link }>{ menu.label }</Link>
+                    </li>
+                ))}
+            </ul>
+                
+            <div className="container mx-auto">
+                <div className="columns-auto p-10 px-4">
+                    <Outlet />
                 </div>
-                <ReactQueryDevtools />
-            </QueryClientProvider>
-        </div>
+            </div>
+            <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
     )
 }
 

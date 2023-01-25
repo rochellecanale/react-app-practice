@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { getCurrentWeather } from '../../services/weatherAPI'
 
 import SnowImage from '../../assets/images/weather/icons8-snow-storm-48.png'
@@ -12,9 +12,9 @@ import PartlyCloudyNightImage from '../../assets/images/weather/icons8-night-40.
 import ClearDayImage from '../../assets/images/weather/icons8-sun-48.png'
 import ClearNightImage from '../../assets/images/weather/icons8-night-64.png'
 
-
 function WeatherApp() {
 
+    const queryClient = useQueryClient()
 	const [state, setstate] = useState('');
     const [inputState, setInputState] = useState('Bulacan')
     const [isLoadingData, setIsLoadingData] = useState(false)
